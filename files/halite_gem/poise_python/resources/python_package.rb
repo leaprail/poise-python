@@ -337,7 +337,6 @@ EOH
         # @return [Mixlib::ShellOut]
         def pip_command(pip_command, options_type, pip_options=[], opts={})
           runner = opts.delete(:pip_runner) || %w{-m pip.__main__}
-          Chef::Log.info("[#{new_resource}] pip_command runner: #{runner}")
           type_specific_options = new_resource.send(:"#{options_type}_options")
           full_cmd = if new_resource.options || type_specific_options
             if (new_resource.options && new_resource.options.is_a?(String)) || (type_specific_options && type_specific_options.is_a?(String))
@@ -357,8 +356,6 @@ EOH
           opts[:user] = new_resource.user if new_resource.user
           opts[:group] = new_resource.group if new_resource.group
 
-          Chef::Log.info("[#{new_resource}] pip_command full_cmd: #{full_cmd}")
-          Chef::Log.info("[#{new_resource}] pip_command opts: #{opts}")
           python_shell_out!(full_cmd, opts)
         end
 
@@ -373,7 +370,6 @@ EOH
           cmd = pip_requirements(name, version)
           # Prepend --upgrade if needed.
           cmd = %w{--upgrade} + cmd if upgrade
-          Chef::Log.info("[#{new_resource}] pip_install cmd: #{cmd}")
           pip_command('install', :install, cmd)
         end
 
