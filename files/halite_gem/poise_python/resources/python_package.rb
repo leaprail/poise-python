@@ -48,16 +48,16 @@ try:
   from pip.req import InstallRequirement
   install_req_from_line = InstallRequirement.from_line
 except ImportError:
-  # Pip 10 moved all internals to their own package.
-  from pip._internal.commands import InstallCommand
-  from pip._internal.index import PackageFinder
   try:
-    # Pip 18.1 moved from_line to the constructors
-    from pip._internal.req.constructors import install_req_from_line
+    # Pip 10 moved all internals to their own package.
+    from pip._internal.commands import InstallCommand
   except ImportError:
+    # Pip 19 moved install to their own package.
+    from pip._internal.commands.install import InstallCommand
+    from pip._internal.index import PackageFinder
     try:
-      # Pip 19 moved install to their own package.
-      from pip._internal.commands.install import InstallCommand
+      # Pip 18.1 moved from_line to the constructors
+      from pip._internal.req.constructors import install_req_from_line
     except ImportError:
       from pip._internal.req import InstallRequirement
       install_req_from_line = InstallRequirement.from_line
