@@ -332,6 +332,7 @@ EOH
           opts[:user] = new_resource.user if new_resource.user
           opts[:group] = new_resource.group if new_resource.group
 
+          Chef::Log.info("[#{new_resource}] full_cmd: #{full_cmd}")
           python_shell_out!(full_cmd, opts)
         end
 
