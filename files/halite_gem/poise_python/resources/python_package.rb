@@ -63,7 +63,7 @@ except ImportError:
       install_req_from_line = InstallRequirement.from_line
 
 packages = {}
-cmd = InstallCommand()
+cmd = InstallCommand(name='install', summary = 'Install packages.')
 options, args = cmd.parse_args(sys.argv[1:])
 with cmd._build_session(options) as session:
   if options.no_index:
@@ -338,6 +338,7 @@ EOH
           opts[:group] = new_resource.group if new_resource.group
 
           Chef::Log.info("[#{new_resource}] pip_command full_cmd: #{full_cmd}")
+          Chef::Log.info("[#{new_resource}] pip_command opts: #{opts}")
           python_shell_out!(full_cmd, opts)
         end
 
