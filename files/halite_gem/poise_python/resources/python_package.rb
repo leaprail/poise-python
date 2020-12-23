@@ -86,6 +86,7 @@ with cmd._build_session(options) as session:
   candidate_prefs_options = dict(
     allow_all_prereleases=options.pre
   )
+  candidate_prefs = CandidatePreferences(**candidate_prefs_options)
   finder_options = dict(
     link_collector=link_collector,
     candidate_prefs=candidate_prefs,
