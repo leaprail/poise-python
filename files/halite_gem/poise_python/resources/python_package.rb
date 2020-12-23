@@ -71,12 +71,13 @@ with cmd._build_session(options) as session:
   else:
     index_urls = [options.index_url] + options.extra_index_urls
   finder_options = dict(
-    find_links=options.find_links,
     index_urls=index_urls,
     allow_all_prereleases=options.pre,
     trusted_hosts=options.trusted_hosts,
     session=session,
   )
+  if getattr(options, 'find_links', None):
+    finder_options['find_links'] = options.find_links
   if getattr(options, 'process_dependency_links', None):
     finder_options['process_dependency_links'] = options.process_dependency_links
   if getattr(options, 'format_control', None):
