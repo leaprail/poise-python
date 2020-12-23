@@ -90,7 +90,7 @@ with cmd._build_session(options) as session:
   candidate_prefs = CandidatePreferences(**candidate_prefs_options)
   finder_options = dict(
     link_collector=link_collector,
-    target_python=TargetPython()
+    target_python=TargetPython(),
     allow_yanked=False,
     candidate_prefs=candidate_prefs,
   )
