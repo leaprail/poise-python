@@ -52,13 +52,13 @@ except ImportError:
     # Pip 10 moved all internals to their own package.
     from pip._internal.commands import InstallCommand
   except ImportError:
-    # Pip 19 moved install to their own package.
+    # Pip 20 moved install to their own package.
     from pip._internal.commands.install import InstallCommand
     from pip._internal.models.search_scope import SearchScope
     from pip._internal.models.target_python import TargetPython
-    from pip._internal.collector import LinkCollector
-    from pip._internal.index import CandidatePreferences
-    from pip._internal.index import PackageFinder
+    from pip._internal.index.collector import LinkCollector
+    from pip._internal.index.package_finder import CandidatePreferences
+    from pip._internal.index.package_finder import PackageFinder
     try:
       # Pip 18.1 moved from_line to the constructors
       from pip._internal.req.constructors import install_req_from_line
