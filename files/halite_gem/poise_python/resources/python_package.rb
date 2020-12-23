@@ -91,7 +91,7 @@ with cmd._build_session(options) as session:
   finder_options = dict(
     link_collector=link_collector,
     target_python=TargetPython()
-    allow_yanked=false,
+    allow_yanked=False,
     candidate_prefs=candidate_prefs,
   )
   if getattr(options, 'format_control', None):
