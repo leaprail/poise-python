@@ -102,9 +102,9 @@ with cmd._build_session(options) as session:
     req = install_req_from_line(arg)
     found = finder.find_requirement(req, True)
     all_candidates = find_all(req.name)
-    candidate = [c for c in all_candidates if c.link == found]
+    candidate = [c for c in all_candidates if c.link == found.link]
     if candidate:
-      packages[candidate[0].project.lower()] = str(candidate[0].version)
+      packages[candidate[0].name.lower()] = str(candidate[0].version)
 json.dump(packages, sys.stdout)
 EOH
 
