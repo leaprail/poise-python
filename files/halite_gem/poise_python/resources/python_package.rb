@@ -54,6 +54,9 @@ except ImportError:
   except ImportError:
     # Pip 19 moved install to their own package.
     from pip._internal.commands.install import InstallCommand
+    from pip._internal.models.search_scope import SearchScope
+    from pip._internal.collector import LinkCollector
+    from pip._internal.index import CandidatePreferences
     from pip._internal.index import PackageFinder
     try:
       # Pip 18.1 moved from_line to the constructors
@@ -70,16 +73,23 @@ with cmd._build_session(options) as session:
     index_urls = []
   else:
     index_urls = [options.index_url] + options.extra_index_urls
-  finder_options = dict(
+  search_scope_options = dict(
+    find_links=options.find_links,
     index_urls=index_urls,
-    allow_all_prereleases=options.pre,
-    trusted_hosts=options.trusted_hosts,
-    session=session,
   )
-  if getattr(options, 'find_links', None):
-    finder_options['find_links'] = options.find_links
-  if getattr(options, 'process_dependency_links', None):
-    finder_options['process_dependency_links'] = options.process_dependency_links
+  search_scope = SearchScope(**search_scope_options)
+  link_collector_options = dict(
+    session=session,
+    search_scope=search_scope,
+  )
+  link_collector = LinkCollector(**link_collector_options)
+  candidate_prefs_options = dict(
+    allow_all_prereleases=options.pre
+  )
+  finder_options = dict(
+    link_collector=link_collector,
+    candidate_prefs=candidate_prefs,
+  )
   if getattr(options, 'format_control', None):
     finder_options['format_control'] = options.format_control
   finder = PackageFinder(**finder_options)
@@ -93,6 +103,10 @@ with cmd._build_session(options) as session:
       packages[candidate[0].project.lower()] = str(candidate[0].version)
 json.dump(packages, sys.stdout)
 EOH
+
+# if getattr(options, 'process_dependency_links', None):
+    # finder_options['process_dependency_links'] = options.process_dependency_links
+    # trusted_hosts=options.trusted_hosts,
 
       # A `python_package` resource to manage Python installations using pip.
       #
