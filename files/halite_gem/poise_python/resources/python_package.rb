@@ -55,6 +55,7 @@ except ImportError:
     # Pip 19 moved install to their own package.
     from pip._internal.commands.install import InstallCommand
     from pip._internal.models.search_scope import SearchScope
+    from pip._internal.models.target_python import TargetPython
     from pip._internal.collector import LinkCollector
     from pip._internal.index import CandidatePreferences
     from pip._internal.index import PackageFinder
@@ -89,6 +90,8 @@ with cmd._build_session(options) as session:
   candidate_prefs = CandidatePreferences(**candidate_prefs_options)
   finder_options = dict(
     link_collector=link_collector,
+    target_python=TargetPython()
+    allow_yanked=false,
     candidate_prefs=candidate_prefs,
   )
   if getattr(options, 'format_control', None):
